@@ -36,3 +36,13 @@
 .hero .authors>a{white-space:nowrap}
 .hero .authors>a:first-child{justify-self:end}
 .hero .authors>a:last-child{justify-self:start}
+/* Align corresponding content rows across the two realization columns. */
+@media(min-width:721px){
+  .route-comparison>article>p:first-of-type{min-height:5.55em}
+  @supports(grid-template-rows:subgrid){
+    .route-comparison>article{display:grid;grid-template-rows:subgrid;grid-row:1 / span 6;align-content:start}
+    .route-comparison>article:first-child{grid-column:1}
+    .route-comparison>article:last-child{grid-column:2}
+    .route-comparison>article>p:first-of-type{min-height:0}
+  }
+}
