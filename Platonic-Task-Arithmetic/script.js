@@ -1,6 +1,5 @@
 'use strict';
 const video = document.getElementById('explainer');
-const motionButton = document.getElementById('motion-toggle');
 const restartButton = document.getElementById('restart-video');
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 let inView = false;
@@ -9,29 +8,38 @@ let userPaused = false;
 let allowMotion = !reducedMotion.matches;
 video.muted = true;
 video.controls = false;
-motionButton.hidden = false;
+video.tabIndex = 0;
+video.setAttribute('role', 'button');
 restartButton.hidden = false;
-function updateMotionButton() {
-  motionButton.textContent = video.paused ? 'Play animation' : 'Pause animation';
-  motionButton.setAttribute('aria-pressed', String(video.paused));
+function updatePlaybackLabel() {
+  video.setAttribute('aria-label', 'Platonic Task Arithmetic video. ' + (video.paused ? 'Play video' : 'Pause video') + '. Click or press Space.');
 }
-async function playVideo() { try { await video.play(); } catch { updateMotionButton(); } }
+async function playVideo() { try { await video.play(); } catch { updatePlaybackLabel(); } }
 function syncPlayback() {
   if (inView && !waitingForAnchor && !document.hidden && allowMotion && !userPaused) playVideo();
   else video.pause();
 }
-video.addEventListener('play', updateMotionButton);
-video.addEventListener('pause', updateMotionButton);
+video.addEventListener('play', updatePlaybackLabel);
+video.addEventListener('pause', updatePlaybackLabel);
 video.addEventListener('error', () => {
   video.controls = true;
-  motionButton.hidden = true;
+  video.removeAttribute('role');
+  video.removeAttribute('tabindex');
   restartButton.hidden = true;
 });
-motionButton.addEventListener('click', () => {
+function togglePlayback() {
   if (video.paused) { userPaused = false; allowMotion = true; playVideo(); }
   else { userPaused = true; video.pause(); }
+}
+video.addEventListener('click', togglePlayback);
+video.addEventListener('keydown', event => {
+  if (event.code === 'Space' || event.key === 'Enter') {
+    event.preventDefault();
+    togglePlayback();
+  }
 });
-restartButton.addEventListener('click', () => {
+restartButton.addEventListener('click', event => {
+  event.stopPropagation();
   video.currentTime = 0;
   userPaused = false;
   allowMotion = true;
@@ -57,7 +65,7 @@ if ('IntersectionObserver' in window) {
   // Preserve the opening scene until the visitor chooses to play.
   video.controls = true;
 }
-updateMotionButton();
+updatePlaybackLabel();
 
 function setTabs(group, selected) {
   group.forEach(tab => {
