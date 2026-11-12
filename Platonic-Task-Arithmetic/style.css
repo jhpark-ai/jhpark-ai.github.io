@@ -53,3 +53,12 @@
 .video-replay{position:absolute;top:9px;right:11px;z-index:1;background:rgba(15,16,19,.6);color:rgba(255,255,255,.72);border:0;border-radius:3px;padding:3px 6px;font:inherit;font-size:11px;font-weight:400;line-height:1.4;cursor:pointer}
 .video-replay:hover,.video-replay:focus-visible{color:#fff;background:rgba(15,16,19,.85)}
 @media(max-width:720px){.video-replay{top:6px;right:7px;font-size:10px;padding:3px 5px}}
+
+/* The platonic hypothesis overview, with the supplied original available to zoom. */
+.platonic-overview-figure{margin:0 auto 28px;width:100%}
+.overview-figure-link{display:block;border-radius:10px;overflow:hidden;background:#15161c;cursor:zoom-in}
+.overview-figure-link img{display:block;width:100%;height:auto}
+.platonic-overview-figure figcaption{display:flex;align-items:baseline;justify-content:space-between;gap:22px;margin-top:12px;font-size:12px;line-height:1.7;color:var(--muted)}
+.platonic-overview-figure figcaption>a{white-space:nowrap;color:var(--blue);font-size:11px}
+#overview>.platonic-overview-figure+.finding{margin-top:28px;margin-bottom:35px}
+@media(max-width:720px){.overview-figure-link{border-radius:7px}.platonic-overview-figure figcaption{display:block;font-size:11px;line-height:1.8}.platonic-overview-figure figcaption>a{display:inline-block;margin-top:7px}.platonic-overview-figure{margin-bottom:25px}}
