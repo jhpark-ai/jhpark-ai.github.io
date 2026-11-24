@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,22 +13,14 @@
   <meta property="og:url" content="https://jhpark-ai.github.io/">
   <meta property="og:image" content="https://jhpark-ai.github.io/assets/profile.png">
   <meta name="twitter:card" content="summary">
-  <meta name="theme-color" content="#04060c">
+  <meta name="theme-color" content="#f6f5f1">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-
-  <!-- Apply the saved theme before first paint so the page never flashes. -->
-  <script>
-    try {
-      var saved = localStorage.getItem('theme');
-      if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved;
-    } catch (e) {}
-  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css">
-  <script src="assets/main.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600&family=Inter:wght@400;500;600&family=STIX+Two+Text:ital@1&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css?v=2">
+  <script src="assets/main.js?v=2" defer></script>
 
   <script type="application/ld+json">
   {
@@ -53,497 +45,383 @@
 <body>
 <a class="skip" href="#about">Skip to content</a>
 
-<header class="nav" id="top">
-  <div class="nav-inner">
-    <a class="brand" href="#top" aria-label="Junghwan Park, back to top">
-      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
-        <circle cx="16" cy="16" r="5.5" class="brand-planet"/>
-        <ellipse cx="16" cy="16" rx="13" ry="4.6" transform="rotate(-28 16 16)" class="brand-orbit"/>
-        <circle cx="27" cy="9.6" r="2" class="brand-sat"/>
-      </svg>
-      <span>Junghwan Park</span>
-    </a>
-    <nav class="nav-links" aria-label="Sections">
-      <a href="#about">About</a>
-      <a href="#research">Research</a>
-      <a href="#publications">Publications</a>
-      <a href="#experience">Experience</a>
-      <a href="#contact">Contact</a>
-    </nav>
-    <button class="theme-toggle" type="button" aria-label="Switch colour theme" title="Switch colour theme">
-      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></svg>
-      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2.5M12 19.500V22M2 12h2.500M19.500 12H22M4.900 4.900l1.800 1.800M17.300 17.300l1.800 1.800M4.900 19.100l1.800-1.800M17.300 6.700l1.800-1.800"/></svg>
-    </button>
+<header class="bar">
+  <div class="wrap bar-in">
+    <a class="who" href="#about">Junghwan Park</a>
+    <nav aria-label="Sections"><a href="#research">Research</a><a href="#publications">Publications</a><a href="#experience">Experience</a><a href="#contact">Contact</a></nav>
+    <!-- Scrolling the page is the "training run": the step counts up and the loss comes down. -->
+    <div class="train" title="Scrolling the page is the training run" aria-hidden="true">
+      <svg viewBox="0 0 92 24"><path id="curve" d=""/><circle id="curve-dot" r="2.4"/></svg>
+      <span>step <b id="t-step">0000</b> · loss <b id="t-loss">2.300</b></span>
+    </div>
   </div>
+  <div class="prog" id="prog"></div>
 </header>
 
 <main>
 
-  <!-- ───────────── Hero ───────────── -->
-  <section class="hero" id="about">
-    <canvas class="sky" id="sky" aria-hidden="true"></canvas>
-    <div class="horizon" aria-hidden="true"><div class="limb"></div></div>
-
-    <div class="wrap hero-grid">
-      <div class="hero-text">
-        <p class="eyebrow">
-          <span class="status-dot" aria-hidden="true"></span>
-          AI Researcher · <a href="https://telepix.net/" target="_blank" rel="noopener">TelePIX</a>
-          <span class="coords"><span class="eyebrow-sep" aria-hidden="true">/</span> Seoul 37.57°N 126.98°E</span>
-        </p>
-        <h1>Junghwan Park</h1>
-
-        <div class="bio">
-          <p>I am an AI researcher at <a href="https://telepix.net/" target="_blank" rel="noopener">TelePIX</a> working on computer vision and the learning problems underneath it, from implicit neural representations to few-shot adaptation and satellite perception. My main line of work asks how pretrained visual representations transfer and adapt to new tasks, and how far those methods carry into remote sensing and spaceflight.</p>
-          <p>I previously spent four years on neural surrogate modeling for semiconductor devices, working on knowledge transfer between devices and on sample-efficient learning from limited measurement data. Much of my current research revisits those problems in a visual setting. I am particularly interested in methods that adapt existing models efficiently and remain reliable outside the settings they were built for.</p>
-        </div>
-
-        <ul class="links" aria-label="Profiles">
-          <li><a class="js-email" href="#contact">
-            <svg viewBox="0 0 24 24" aria-hidden="true" class="ic-stroke"><rect x="3" y="5.500" width="18" height="13" rx="2"/><path d="m3.500 7 8.500 6.500L20.500 7"/></svg>Email</a></li>
-          <li><a href="https://scholar.google.com/citations?user=KDFm2E8AAAAJ" target="_blank" rel="noopener me">
-            <svg viewBox="0 0 24 24" aria-hidden="true" class="ic-stroke"><path d="M12 4 2 9l10 5 10-5-10-5z"/><path d="M6 11.500V16c0 1.300 2.700 2.500 6 2.500s6-1.200 6-2.500v-4.500"/></svg>Google Scholar</a></li>
-          <li><a href="https://github.com/jhpark-ai" target="_blank" rel="noopener me">
-            <svg viewBox="0 0 24 24" aria-hidden="true" class="ic-fill"><path d="M12 .297c-6.630 0-12 5.373-12 12 0 5.303 3.438 9.800 8.205 11.385.600.113.820-.258.820-.577 0-.285-.010-1.040-.015-2.040-3.338.724-4.042-1.610-4.042-1.610C4.422 18.070 3.633 17.700 3.633 17.700c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.070 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.760-1.605-2.665-.300-5.466-1.332-5.466-5.930 0-1.310.465-2.380 1.235-3.220-.135-.303-.540-1.523.105-3.176 0 0 1.005-.322 3.300 1.230.960-.267 1.980-.399 3-.405 1.020.006 2.040.138 3 .405 2.280-1.552 3.285-1.230 3.285-1.230.645 1.653.240 2.873.120 3.176.765.840 1.230 1.910 1.230 3.220 0 4.610-2.805 5.625-5.475 5.920.420.360.810 1.096.810 2.220 0 1.606-.015 2.896-.015 3.286 0 .315.210.690.825.570C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub</a></li>
-          <li><a href="https://www.linkedin.com/in/junghwan-park-810b25239/" target="_blank" rel="noopener me">
-            <svg viewBox="0 0 24 24" aria-hidden="true" class="ic-fill"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.900 1.637-1.850 3.370-1.850 3.601 0 4.267 2.370 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.920-2.063 2.063-2.063 1.140 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.200 24 24 23.227 24 22.271V1.729C24 .774 23.200 0 22.222 0h.003z"/></svg>LinkedIn</a></li>
-          <!-- To offer a CV download, add a public copy (without phone number) at assets/cv.pdf and uncomment:
-          <li><a href="assets/cv.pdf" target="_blank" rel="noopener">CV</a></li> -->
-        </ul>
-      </div>
-
-      <div class="portrait" aria-hidden="false">
-        <div class="orbit orbit-inner" aria-hidden="true">
-          <svg class="sat" viewBox="0 0 24 24"><rect x="9" y="8.500" width="6" height="7" rx="1.200"/><rect x="1.500" y="9.500" width="5.500" height="5" rx=".600"/><rect x="17" y="9.500" width="5.500" height="5" rx=".600"/><path d="M7 12h2M15 12h2"/></svg>
-        </div>
-        <div class="orbit orbit-outer" aria-hidden="true"><span class="moon"></span></div>
-        <img src="assets/profile.png" width="192" height="192" alt="Portrait of Junghwan Park">
-      </div>
-    </div>
-  </section>
-
-  <!-- ───────────── Highlights ───────────── -->
-  <section class="section section-tight" aria-labelledby="highlights-h">
-    <div class="wrap">
-      <h2 class="visually-hidden" id="highlights-h">Highlights</h2>
-      <ul class="highlights">
-        <li>
-          <span class="hl-label">NeurIPS 2026</span>
-          <strong>Two conference papers</strong>
-          <span class="hl-desc">Platonic Task Arithmetic and Closed-Form Implicit Neural Representations.</span>
-        </li>
-        <li>
-          <span class="hl-label">CVPR 2026</span>
-          <strong>BOLT</strong>
-          <span class="hl-desc">Basis-oriented low-rank transfer for few-shot and test-time adaptation.</span>
-        </li>
-        <li>
-          <span class="hl-label hl-gold">Best Paper Award</span>
-          <strong>CVPR SynData4CV</strong>
-          <span class="hl-desc">A sequential dataset and frequency-space neural operator for satellite pose estimation.</span>
-        </li>
-        <li>
-          <span class="hl-label hl-gold">On orbit</span>
-          <strong>Neural compression in space</strong>
-          <span class="hl-desc">Backpropagation-free compression demonstrated on orbit. NeurIPS CCAI Spotlight.</span>
-        </li>
+<!-- ───────────── About ───────────── -->
+<section id="about">
+  <div class="wrap hero">
+    <div>
+      <p class="eyebrow">AI Researcher · <a href="https://telepix.net/" target="_blank" rel="noopener">TelePIX</a> · Seoul</p>
+      <h1>Junghwan<br>Park</h1>
+      <p class="lead">I am an AI researcher at <a href="https://telepix.net/" target="_blank" rel="noopener">TelePIX</a> working on computer vision and the learning problems underneath it, from implicit neural representations to few-shot adaptation and satellite perception. My main line of work asks how pretrained visual representations transfer and adapt to new tasks, and how far those methods carry into remote sensing and spaceflight.</p>
+      <ul class="links" aria-label="Profiles">
+        <li><a class="js-email" href="#contact">Email</a></li>
+        <li><a href="https://scholar.google.com/citations?user=KDFm2E8AAAAJ" target="_blank" rel="noopener me">Google Scholar</a></li>
+        <li><a href="https://github.com/jhpark-ai" target="_blank" rel="noopener me">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/junghwan-park-810b25239/" target="_blank" rel="noopener me">LinkedIn</a></li>
+        <!-- To offer a CV download, add a public copy (without phone number) at assets/cv.pdf and uncomment:
+        <li><a href="assets/cv.pdf" target="_blank" rel="noopener">CV</a></li> -->
       </ul>
     </div>
-  </section>
-
-  <!-- ───────────── Research ───────────── -->
-  <section class="section" id="research" aria-labelledby="research-h">
-    <div class="wrap">
-      <header class="sec-head"><span class="sec-idx">01</span><h2 id="research-h">Research</h2><span class="sec-rule" aria-hidden="true"></span></header>
-
-      <div class="cards">
-        <article class="card">
-          <svg class="card-ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="12" cy="24" r="5"/><circle cx="36" cy="12" r="4"/><circle cx="36" cy="36" r="4"/><path d="M16.500 21.500 32.300 13.700M16.500 26.500l15.800 7.800"/></svg>
-          <h3>Transfer &amp; adaptation</h3>
-          <p>How pretrained visual representations carry over to new tasks with little data or compute: few-shot and test-time adaptation, task arithmetic across models, and training-free segmentation on frozen features.</p>
-          <p class="card-refs">BOLT · Platonic Task Arithmetic · FROST</p>
-        </article>
-        <article class="card">
-          <svg class="card-ic" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 30c5 0 5-14 10-14s5 18 10 18 5-22 10-22 5 14 10 14"/><path d="M4 40h40" class="dim"/></svg>
-          <h3>Neural representations &amp; operators</h3>
-          <p>Implicit neural representations and neural operators as compact function approximators: closed-form fitting, backpropagation-free compression, and physics-guided operators for scientific data.</p>
-          <p class="card-refs">Closed-Form INR · ELMZip · PIANO · FLAME</p>
-        </article>
-        <article class="card">
-          <svg class="card-ic" viewBox="0 0 48 48" aria-hidden="true"><rect x="18" y="17" width="12" height="14" rx="2"/><rect x="3" y="19.500" width="11" height="9" rx="1"/><rect x="34" y="19.500" width="11" height="9" rx="1"/><path d="M14 24h4M30 24h4M24 31v5M19 41a7 7 0 0 1 10 0" /></svg>
-          <h3>Onboard satellite AI</h3>
-          <p>Perception that runs on the spacecraft itself: 6-DoF pose estimation, onboard compression, and vision-language models that summarize before downlink, across RGB, multispectral and hyperspectral imagery.</p>
-          <p class="card-refs">ASTRA · DRIFT · Summarize First, Download Later</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- ───────────── Publications ───────────── -->
-  <section class="section" id="publications" aria-labelledby="pubs-h">
-    <div class="wrap">
-      <header class="sec-head"><span class="sec-idx">02</span><h2 id="pubs-h">Publications</h2><span class="sec-rule" aria-hidden="true"></span></header>
-
-      <div class="pub-toolbar">
-        <div class="filters" role="group" aria-label="Filter publications">
-          <button type="button" class="filter is-active" data-filter="all" aria-pressed="true">All <span class="count">21</span></button>
-          <button type="button" class="filter" data-filter="main" aria-pressed="false">Conference &amp; Journal <span class="count">10</span></button>
-          <button type="button" class="filter" data-filter="workshop" aria-pressed="false">Workshop <span class="count">6</span></button>
-          <button type="button" class="filter" data-filter="preprint" aria-pressed="false">Preprint <span class="count">5</span></button>
+    <figure class="fig">
+      <div class="stage" id="stage"><canvas id="surf" role="img" aria-label="A three-dimensional loss surface with four basins. A satellite circles down the slope and settles into one of them."></canvas></div>
+      <figcaption class="cap">
+        <p><b>Fig. 1.</b> A toy loss <span class="m">L(θ)</span> over two directions in weight space. Each basin is one line of my work. Drag to rotate.</p>
+        <div class="ctl">
+          <button type="button" id="again">Re-initialise</button>
         </div>
-        <p class="pub-note"><span class="me">J Park</span> is me. * equal contribution. Full list on <a href="https://scholar.google.com/citations?user=KDFm2E8AAAAJ" target="_blank" rel="noopener">Google Scholar</a>.</p>
-      </div>
+      </figcaption>
+    </figure>
+  </div>
 
-      <!-- To add a paper: copy one <li class="pub"> block and edit it. -->
-
-      <div class="pub-group" data-type="main">
-        <h3 class="pub-group-title">Conference &amp; Journal</h3>
-        <ul class="pubs">
-
-          <li class="pub">
-            <div class="pub-venue"><span class="v-name">NeurIPS</span><span class="v-year">2026</span></div>
-            <div class="pub-body">
-              <h4><a href="https://arxiv.org/abs/2610.00929" target="_blank" rel="noopener">Platonic Task Arithmetic</a></h4>
-              <p class="authors"><span class="me">J Park</span>, W Cho</p>
-              <p class="venue">Neural Information Processing Systems (NeurIPS), 2026</p>
-              <p class="chips">
-                <a href="https://arxiv.org/abs/2610.00929" target="_blank" rel="noopener">arXiv</a>
-                <a href="Platonic-Task-Arithmetic/">Project page</a>
-                <a href="https://github.com/jhpark-ai/Platonic-Task-Arithmetic" target="_blank" rel="noopener">Code</a>
-              </p>
-            </div>
-          </li>
-
-          <li class="pub">
-            <div class="pub-venue"><span class="v-name">NeurIPS</span><span class="v-year">2026</span></div>
-            <div class="pub-body">
-              <h4><a href="https://arxiv.org/abs/2602.07603" target="_blank" rel="noopener">Closed-Form Implicit Neural Representations</a></h4>
-              <p class="authors">W Cho*, <span class="me">J Park*</span></p>
-              <p class="venue">Neural Information Processing Systems (NeurIPS), 2026</p>
-              <p class="chips">
-                <a href="https://arxiv.org/abs/2602.07603" target="_blank" rel="noopener">arXiv</a>
-                <a href="https://openreview.net/attachment?id=xgO3o4J75E&amp;name=supplementary_material" target="_blank" rel="noopener">Code</a>
-              </p>
-            </div>
-          </li>
-
-          <li class="pub">
-            <div class="pub-venue"><span class="v-name">IGARSS</span><span class="v-year">2026</span></div>
-            <div class="pub-body">
-              <h4><a href="https://arxiv.org/abs/2608.06959" target="_blank" rel="noopener">Summarize First, Download Later: Onboard VLMs for Bandwidth-Efficient Earth Observation</a></h4>
-              <p class="authors"><span class="me">J Park</span>, S Sim, W Cho, D Kwon</p>
-              <p class="venue">IEEE International Geoscience and Remote Sensing Symposium (IGARSS), 2026 <span class="badge">Oral</span></p>
-              <p class="chips">
-                <a href="https://arxiv.org/abs/2608.06959" target="_blank" rel="noopener">arXiv</a>
-                <a href="https://doi.org/10.1109/IGARSS60577.2026.11730445" target="_blank" rel="noopener">Paper</a>
-              </p>
-            </div>
-          </li>
-
-          <li class="pub">
-            <div class="pub-venue"><span class="v-name">IGARSS</span><span class="v-year">2026</span></div>
-            <div class="pub-body">
-              <h4><a href="https://arxiv.org/abs/2608.06942" target="_blank" rel="noopener">ELMZip: Onboard Satellite Image Compression via Extreme Learning Machines for Efficient Downlink</a></h4>
-              <p class="authors">W Cho, <span class="me">J Park</span>, S Sim, S Immanuel, J Heo, D Kwon</p>
-              <p class="venue">IEEE International Geoscience and Remote Sensing Symposium (IGARSS), 2026</p>
-              <p class="chips">
-                <a href="https://arxiv.org/abs/2608.06942" target="_blank" rel="noopener">arXiv</a>
-                <a href="https://doi.org/10.1109/IGARSS60577.2026.11730267" target="_blank" rel="noopener">Paper</a>
-              </p>
-            </div>
-          </li>
-
-          <li class="pub">
-            <div class="pub-venue"><span class="v-name">CVPR</span><span class="v-year">2026</span></div>
-            <div class="pub-body">
-              <h4><a href="https://openaccess.thecvf.com/content/CVPR2026/html/Park_Basis-Oriented_Low-rank_Transfer_for_Few-Shot_and_Test-Time_Adaptation_CVPR_2026_paper.html" target="_blank" rel="noopener">Basis-Oriented Low-rank Transfer for Few-Shot and Test-Time Adaptation</a></h4>
-              <p class="authors"><span class="me">J Park</span>, W Cho, J Heo, D Kwon, K Lee</p>
-              <p class="venue">IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 2026</p>
-              <p class="chips">
-                <a href="https://openaccess.thecvf.com/content/CVPR2026/html/Park_Basis-Oriented_Low-rank_Transfer_for_Few-Shot_and_Test-Time_Adaptation_CVPR_2026_paper.html" target="_blank" rel="noopener">Paper</a>
-                <a href="https://arxiv.org/abs/2512.02441" target="_blank" rel="noopener">arXiv</a>
-                <a href="https://github.com/jhpark-ai/BOLT" target="_blank" rel="noopener">Code</a>
-              </p>
-            </div>
-          </li>
-
-          <li class="pub">
-            <div class="pub-venue"><span class="v-name">GRSM</span><span class="v-year">2026</span></div>
-            <div class="pub-body">
-              <h4><a href="https://ieeexplore.ieee.org/abstract/document/11373906" target="_blank" rel="noopener">Artificial Intelligence for Earthquake Response: Outcomes and insights from a global spaceborne rapid mapping challenge</a></h4>
-              <p class="authors">P Ebel, M El Baz, J Wang, W Xuan, H Qi, Z Zheng, N Yokoya, <span class="me">J Park</span>, et al.</p>
-              <p class="venue">IEEE Geoscience and Remote Sensing Magazine (GRSM), 2026</p>
-              <p class="chips">
-                <a href="https://ieeexplore.ieee.org/abstract/document/11373906" target="_blank" rel="noopener">Paper</a>
-                <a href="https://github.com/jhpark-ai/AI4EarthquakeResponse-1st" target="_blank" rel="noopener">Solution code</a>
-              </p>
-            </div>
-          </li>
-
-          <li class="pub">
-            <div class="pub-venue"><span class="v-name">JEDS</span><span class="v-year">2024</span></div>
-            <div class="pub-body">
-              <h4><a href="https://doi.org/10.1109/JEDS.2024.3417521" target="_blank" rel="noopener">Large-scale training in neural compact models for accurate and adaptable MOSFET simulation</a></h4>
-              <p class="authors">C Park*, S Lee*, <span class="me">J Park*</span>, K Rim, J Park, S Cho, J Jeon, H Cho</p>
-              <p class="venue">IEEE Journal of the Electron Devices Society, 12:745–751, 2024</p>
-              <p class="chips">
-                <a href="https://doi.org/10.1109/JEDS.2024.3417521" target="_blank" rel="noopener">Paper</a>
-              </p>
-            </div>
-          </li>
-
-          <li class="pub">
-            <div class="pub-venue"><span class="v-name">DAC</span><span class="v-year">2024</span></div>
-            <div class="pub-body">
-              <h4><a href="https://doi.org/10.1145/3649329.3655925" target="_blank" rel="noopener">Accelerating DTCO with a sample-efficient active learning framework for TCAD device modeling</a></h4>
-              <p class="authors">C Park*, <span class="me">J Park*</span>, P Vincent, H Cho</p>
-              <p class="venue">ACM/IEEE Design Automation Conference (DAC), 2024</p>
-              <p class="chips">
-                <a href="https://doi.org/10.1145/3649329.3655925" target="_blank" rel="noopener">Paper</a>
-              </p>
-            </div>
-          </li>
-
-          <li class="pub">
-            <div class="pub-venue"><span class="v-name">SSE</span><span class="v-year">2023</span></div>
-            <div class="pub-body">
-              <h4><a href="https://doi.org/10.1016/j.sse.2022.108500" target="_blank" rel="noopener">Hierarchical mixture-of-experts approach for neural compact modeling of MOSFETs</a></h4>
-              <p class="authors">C Park, P Vincent, S Chong, <span class="me">J Park</span>, YS Cha, H Cho</p>
-              <p class="venue">Solid-State Electronics, 199:108500, 2023</p>
-              <p class="chips">
-                <a href="https://doi.org/10.1016/j.sse.2022.108500" target="_blank" rel="noopener">Paper</a>
-              </p>
-            </div>
-          </li>
-
-          <li class="pub">
-            <div class="pub-venue"><span class="v-name">SSE</span><span class="v-year">2022</span></div>
-            <div class="pub-body">
-              <h4><a href="https://doi.org/10.1016/j.sse.2022.108450" target="_blank" rel="noopener">A novel methodology for neural compact modeling based on knowledge transfer</a></h4>
-              <p class="authors">YS Cha, <span class="me">J Park</span>, C Park, S Chong, CH Kim, CS Lee, I Jeong, H Cho</p>
-              <p class="venue">Solid-State Electronics, 198:108450, 2022</p>
-              <p class="chips">
-                <a href="https://doi.org/10.1016/j.sse.2022.108450" target="_blank" rel="noopener">Paper</a>
-              </p>
-            </div>
-          </li>
-
-        </ul>
-      </div>
-
-      <div class="pub-group" data-type="workshop">
-        <h3 class="pub-group-title">Workshop</h3>
-        <ul class="pubs">
-
-          <li class="pub">
-            <div class="pub-venue"><span class="v-name">NeurIPS-W</span><span class="v-year">2026</span></div>
-            <div class="pub-body">
-              <h4><a href="https://neurips.cc/virtual/2026/174541" target="_blank" rel="noopener">On-Orbit Demonstration of Backpropagation-Free Neural Compression for Earth Observation</a></h4>
-              <p class="authors">W Cho, <span class="me">J Park</span>, S Sim, D Kwon</p>
-              <p class="venue">NeurIPS Workshop on Tackling Climate Change with Machine Learning, 2026 <span class="badge">Spotlight</span></p>
-              <p class="chips">
-                <a href="https://neurips.cc/virtual/2026/174541" target="_blank" rel="noopener">Workshop page</a>
-              </p>
-            </div>
-          </li>
-
-          <li class="pub">
-            <div class="pub-venue"><span class="v-name">ECCV-W</span><span class="v-year">2026</span></div>
-            <div class="pub-body">
-              <h4><a href="https://arxiv.org/abs/2607.25563" target="_blank" rel="noopener">Few-Shot Open-Vocabulary Remote Sensing Segmentation via Textual Inversion</a></h4>
-              <p class="authors">J Heo, <span class="me">J Park</span></p>
-              <p class="venue">ECCV Workshop on TerraBytes2, 2026 <span class="badge">Oral</span></p>
-              <p class="chips">
-                <a href="https://arxiv.org/abs/2607.25563" target="_blank" rel="noopener">arXiv</a>
-                <a href="https://github.com/ROKMC1250/FewShot-OVRS-TI" target="_blank" rel="noopener">Code</a>
-              </p>
-            </div>
-          </li>
-
-          <li class="pub">
-            <div class="pub-venue"><span class="v-name">ICML-W</span><span class="v-year">2026</span></div>
-            <div class="pub-body">
-              <h4><a href="https://arxiv.org/abs/2606.01577" target="_blank" rel="noopener">FLAME: Physics-Guided Neural Operators for Onboard Satellite Methane Detection in Hyperspectral Imagery</a></h4>
-              <p class="authors">J Heo, <span class="me">J Park</span>, S Sim, B Choi, W Cho</p>
-              <p class="venue">ICML Workshop on AI for Science (AI4Science), 2026</p>
-              <p class="chips">
-                <a href="https://arxiv.org/abs/2606.01577" target="_blank" rel="noopener">arXiv</a>
-                <a href="https://github.com/ROKMC1250/FLAME" target="_blank" rel="noopener">Code</a>
-              </p>
-            </div>
-          </li>
-
-          <li class="pub">
-            <div class="pub-venue"><span class="v-name">CVPR-W</span><span class="v-year">2026</span></div>
-            <div class="pub-body">
-              <h4><a href="https://openreview.net/forum?id=dIO3JLoy19" target="_blank" rel="noopener">Sequential Dataset for Satellite Pose Estimation and a Frequency-Space Neural Operator for HIL-Free Generalization Benchmarking</a></h4>
-              <p class="authors">W Cho*, <span class="me">J Park*</span>, S Immanuel, J Park, S Chin, J Wang</p>
-              <p class="venue">CVPR Workshop on SynData4CV, 2026 <span class="badge badge-gold">Best Paper Award</span></p>
-              <p class="chips">
-                <a href="https://openreview.net/forum?id=dIO3JLoy19" target="_blank" rel="noopener">OpenReview</a>
-              </p>
-            </div>
-          </li>
-
-          <li class="pub">
-            <div class="pub-venue"><span class="v-name">CVPR-W</span><span class="v-year">2026</span></div>
-            <div class="pub-body">
-              <h4><a href="https://openreview.net/forum?id=7yYcqe9l8a" target="_blank" rel="noopener">Onboard Latent Kalman Filtering for Robust Spacecraft Pose Estimation</a></h4>
-              <p class="authors"><span class="me">J Park*</span>, W Cho*</p>
-              <p class="venue">CVPR Workshop on AI4Space, 2026</p>
-              <p class="chips">
-                <a href="https://openreview.net/forum?id=7yYcqe9l8a" target="_blank" rel="noopener">OpenReview</a>
-              </p>
-            </div>
-          </li>
-
-          <li class="pub">
-            <div class="pub-venue"><span class="v-name">NeurIPS-W</span><span class="v-year">2025</span></div>
-            <div class="pub-body">
-              <h4><a href="https://openreview.net/forum?id=F3EcrOOE50" target="_blank" rel="noopener">PIANO: Physics-informed Dual Neural Operator for Precipitation Nowcasting</a></h4>
-              <p class="authors">S Chin, <span class="me">J Park</span>, W Cho</p>
-              <p class="venue">NeurIPS Workshop on Machine Learning and the Physical Sciences (ML4PS), 2025</p>
-              <p class="chips">
-                <a href="https://openreview.net/forum?id=F3EcrOOE50" target="_blank" rel="noopener">OpenReview</a>
-                <a href="https://arxiv.org/abs/2512.01062" target="_blank" rel="noopener">arXiv</a>
-                <a href="https://ml4physicalsciences.github.io/2025/files/NeurIPS_ML4PS_2025_68.pdf" target="_blank" rel="noopener">PDF</a>
-              </p>
-            </div>
-          </li>
-
-        </ul>
-      </div>
-
-      <div class="pub-group" data-type="preprint">
-        <h3 class="pub-group-title">Preprint &amp; under review</h3>
-        <ul class="pubs">
-
-          <li class="pub">
-            <div class="pub-venue"><span class="v-name v-muted">Preprint</span><span class="v-year">2026</span></div>
-            <div class="pub-body">
-              <h4>ASTRA: A Large-Scale Multi-Satellite Benchmark for Onboard 6-DoF Spacecraft Pose Estimation</h4>
-              <p class="authors">W Cho*, <span class="me">J Park*</span>, S Immanuel, J Park, S Chin, J Wang</p>
-              <p class="venue">Under review, 2026</p>
-            </div>
-          </li>
-
-          <li class="pub">
-            <div class="pub-venue"><span class="v-name v-muted">Preprint</span><span class="v-year">2026</span></div>
-            <div class="pub-body">
-              <h4>DRIFT: Dynamics-aware Robust Inference with Latent Filtering for Temporal Satellite Pose Estimation</h4>
-              <p class="authors"><span class="me">J Park*</span>, W Cho*</p>
-              <p class="venue">Under review, 2026</p>
-            </div>
-          </li>
-
-          <li class="pub">
-            <div class="pub-venue"><span class="v-name v-muted">Preprint</span><span class="v-year">2026</span></div>
-            <div class="pub-body">
-              <h4><a href="https://arxiv.org/abs/2606.31136" target="_blank" rel="noopener">FROST: Training-Free Few-Shot Segmentation with Frozen Features and Nonparametric Statistics</a></h4>
-              <p class="authors"><span class="me">J Park</span></p>
-              <p class="venue">Under review, 2026</p>
-              <p class="chips">
-                <a href="https://arxiv.org/abs/2606.31136" target="_blank" rel="noopener">arXiv</a>
-                <a href="https://github.com/jhpark-ai/FROST" target="_blank" rel="noopener">Code</a>
-              </p>
-            </div>
-          </li>
-
-          <li class="pub">
-            <div class="pub-venue"><span class="v-name v-muted">Preprint</span><span class="v-year">2026</span></div>
-            <div class="pub-body">
-              <h4>Foveal Re-Encoding for Frozen Backbones</h4>
-              <p class="authors"><span class="me">J Park</span></p>
-              <p class="venue">Under review, 2026</p>
-            </div>
-          </li>
-
-          <li class="pub">
-            <div class="pub-venue"><span class="v-name v-muted">Preprint</span><span class="v-year">2026</span></div>
-            <div class="pub-body">
-              <h4>Beyond Simulation: Retain-and-Repair Neural Operators for Real-World Adaptation</h4>
-              <p class="authors">W Cho, <span class="me">J Park</span></p>
-              <p class="venue">Under review, 2026</p>
-            </div>
-          </li>
-
-        </ul>
-      </div>
+  <div class="wrap">
+    <div class="about">
+      <img src="assets/profile.png" width="192" height="192" alt="Portrait of Junghwan Park">
+      <p>I previously spent four years on neural surrogate modeling for semiconductor devices, working on knowledge transfer between devices and on sample-efficient learning from limited measurement data. Much of my current research revisits those problems in a visual setting.</p>
+      <p>I am particularly interested in methods that adapt existing models efficiently and remain reliable outside the settings they were built for.</p>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ───────────── Experience ───────────── -->
-  <section class="section" id="experience" aria-labelledby="exp-h">
-    <div class="wrap">
-      <header class="sec-head"><span class="sec-idx">03</span><h2 id="exp-h">Experience</h2><span class="sec-rule" aria-hidden="true"></span></header>
+<!-- ───────────── Research ─────────────
+     One card per basin of fig. 1, in the same order as WELLS in assets/main.js.
+     The figure reads each basin's name from the <h3> here. -->
+<section class="s" id="research"><div class="wrap">
+  <header class="sh"><span class="n">1</span><h2>Research</h2><p class="k">the four basins of fig. 1</p></header>
+  <div class="rgrid">
+      <article class="rs">
+        <p class="k"><span class="mark" aria-hidden="true">🎯</span>basin 1</p>
+        <h3>Transfer &amp; adaptation</h3>
+        <p>How pretrained visual representations carry over to new tasks with little data or compute: few-shot and test-time adaptation, task arithmetic across models, and training-free methods on frozen backbones.</p>
+      </article>
+      <article class="rs">
+        <p class="k"><span class="mark" aria-hidden="true">🧠</span>basin 2</p>
+        <h3>Neural representations &amp; operators</h3>
+        <p>Implicit neural representations and neural operators as compact function approximators: closed-form fitting, physics-informed operators for scientific data, and neural compact models of semiconductor devices.</p>
+      </article>
+      <article class="rs">
+        <p class="k"><span class="mark" aria-hidden="true">🌏</span>basin 3</p>
+        <h3>Remote sensing</h3>
+        <p>Machine learning for Earth-observation imagery in RGB, multispectral and hyperspectral bands, much of it built to run on the satellite: compression and vision-language summaries before downlink, few-shot open-vocabulary segmentation, methane detection and rapid disaster mapping.</p>
+      </article>
+      <article class="rs">
+        <p class="k"><span class="mark" aria-hidden="true">🛰️</span>basin 4</p>
+        <h3>Spacecraft pose estimation</h3>
+        <p>6-DoF pose estimation of spacecraft from onboard cameras: multi-satellite benchmarks and sequential datasets, and latent filtering that keeps the estimate stable over time.</p>
+      </article>
+  </div>
+</div></section>
 
-      <ol class="track">
-        <li class="leg is-active">
-          <div class="leg-when">Feb 2025 – Present</div>
-          <div class="leg-body">
-            <h3><a href="https://telepix.net/" target="_blank" rel="noopener">TelePIX</a> <span class="role">AI Researcher</span></h3>
-            <p class="leg-where">Seoul, South Korea</p>
+<!-- ───────────── Publications ─────────────
+     To add a paper: copy one <li class="pub"> block and edit it. The counts update themselves. -->
+<section class="s" id="publications"><div class="wrap">
+  <header class="sh"><span class="n">2</span><h2>Publications</h2><p class="k">bold name is me · * equal contribution</p></header>
+  <div class="flts" role="group" aria-label="Filter publications">
+    <button type="button" class="flt on" data-f="all" aria-pressed="true">All <span>21</span></button>
+    <button type="button" class="flt" data-f="main" aria-pressed="false">Conference &amp; Journal <span>10</span></button>
+    <button type="button" class="flt" data-f="workshop" aria-pressed="false">Workshop <span>6</span></button>
+    <button type="button" class="flt" data-f="preprint" aria-pressed="false">Preprint <span>5</span></button>
+  </div>
+
+    <div class="pg" data-type="main">
+      <h3 class="pg-title">Conference &amp; Journal <span>10</span></h3>
+      <ol class="pubs">
+
+        <li class="pub">
+          <div class="pub-meta"><span class="pv">NeurIPS</span><span class="py">2026</span></div>
+          <div class="pub-main">
+            <a class="pt" href="https://arxiv.org/abs/2610.00929" target="_blank" rel="noopener">Platonic Task Arithmetic</a>
+            <p class="pa"><span class="me">J Park</span>, W Cho</p>
+            <p class="pn">Neural Information Processing Systems (NeurIPS), 2026</p>
+            <p class="pl"><a href="https://arxiv.org/abs/2610.00929" target="_blank" rel="noopener">arXiv</a><a href="Platonic-Task-Arithmetic/">Project page</a><a href="https://github.com/jhpark-ai/Platonic-Task-Arithmetic" target="_blank" rel="noopener">Code</a></p>
+          </div>
+        </li>
+
+        <li class="pub">
+          <div class="pub-meta"><span class="pv">NeurIPS</span><span class="py">2026</span></div>
+          <div class="pub-main">
+            <a class="pt" href="https://arxiv.org/abs/2602.07603" target="_blank" rel="noopener">Closed-Form Implicit Neural Representations</a>
+            <p class="pa">W Cho*, <span class="me">J Park*</span></p>
+            <p class="pn">Neural Information Processing Systems (NeurIPS), 2026</p>
+            <p class="pl"><a href="https://arxiv.org/abs/2602.07603" target="_blank" rel="noopener">arXiv</a><a href="https://openreview.net/attachment?id=xgO3o4J75E&amp;name=supplementary_material" target="_blank" rel="noopener">Code</a></p>
+          </div>
+        </li>
+
+        <li class="pub">
+          <div class="pub-meta"><span class="pv">IGARSS</span><span class="py">2026</span></div>
+          <div class="pub-main">
+            <a class="pt" href="https://arxiv.org/abs/2608.06959" target="_blank" rel="noopener">Summarize First, Download Later: Onboard VLMs for Bandwidth-Efficient Earth Observation</a>
+            <p class="pa"><span class="me">J Park</span>, S Sim, W Cho, D Kwon</p>
+            <p class="pn">IEEE International Geoscience and Remote Sensing Symposium (IGARSS), 2026 <span class="badge">Oral</span></p>
+            <p class="pl"><a href="https://arxiv.org/abs/2608.06959" target="_blank" rel="noopener">arXiv</a><a href="https://doi.org/10.1109/IGARSS60577.2026.11730445" target="_blank" rel="noopener">Paper</a></p>
+          </div>
+        </li>
+
+        <li class="pub">
+          <div class="pub-meta"><span class="pv">IGARSS</span><span class="py">2026</span></div>
+          <div class="pub-main">
+            <a class="pt" href="https://arxiv.org/abs/2608.06942" target="_blank" rel="noopener">ELMZip: Onboard Satellite Image Compression via Extreme Learning Machines for Efficient Downlink</a>
+            <p class="pa">W Cho, <span class="me">J Park</span>, S Sim, S Immanuel, J Heo, D Kwon</p>
+            <p class="pn">IEEE International Geoscience and Remote Sensing Symposium (IGARSS), 2026</p>
+            <p class="pl"><a href="https://arxiv.org/abs/2608.06942" target="_blank" rel="noopener">arXiv</a><a href="https://doi.org/10.1109/IGARSS60577.2026.11730267" target="_blank" rel="noopener">Paper</a></p>
+          </div>
+        </li>
+
+        <li class="pub">
+          <div class="pub-meta"><span class="pv">CVPR</span><span class="py">2026</span></div>
+          <div class="pub-main">
+            <a class="pt" href="https://openaccess.thecvf.com/content/CVPR2026/html/Park_Basis-Oriented_Low-rank_Transfer_for_Few-Shot_and_Test-Time_Adaptation_CVPR_2026_paper.html" target="_blank" rel="noopener">Basis-Oriented Low-rank Transfer for Few-Shot and Test-Time Adaptation</a>
+            <p class="pa"><span class="me">J Park</span>, W Cho, J Heo, D Kwon, K Lee</p>
+            <p class="pn">IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 2026</p>
+            <p class="pl"><a href="https://openaccess.thecvf.com/content/CVPR2026/html/Park_Basis-Oriented_Low-rank_Transfer_for_Few-Shot_and_Test-Time_Adaptation_CVPR_2026_paper.html" target="_blank" rel="noopener">Paper</a><a href="https://arxiv.org/abs/2512.02441" target="_blank" rel="noopener">arXiv</a><a href="https://github.com/jhpark-ai/BOLT" target="_blank" rel="noopener">Code</a></p>
+          </div>
+        </li>
+
+        <li class="pub">
+          <div class="pub-meta"><span class="pv">GRSM</span><span class="py">2026</span></div>
+          <div class="pub-main">
+            <a class="pt" href="https://ieeexplore.ieee.org/abstract/document/11373906" target="_blank" rel="noopener">Artificial Intelligence for Earthquake Response: Outcomes and insights from a global spaceborne rapid mapping challenge</a>
+            <p class="pa">P Ebel, M El Baz, J Wang, W Xuan, H Qi, Z Zheng, N Yokoya, <span class="me">J Park</span>, et al.</p>
+            <p class="pn">IEEE Geoscience and Remote Sensing Magazine (GRSM), 2026</p>
+            <p class="pl"><a href="https://ieeexplore.ieee.org/abstract/document/11373906" target="_blank" rel="noopener">Paper</a><a href="https://github.com/jhpark-ai/AI4EarthquakeResponse-1st" target="_blank" rel="noopener">Solution code</a></p>
+          </div>
+        </li>
+
+        <li class="pub">
+          <div class="pub-meta"><span class="pv">JEDS</span><span class="py">2024</span></div>
+          <div class="pub-main">
+            <a class="pt" href="https://doi.org/10.1109/JEDS.2024.3417521" target="_blank" rel="noopener">Large-scale training in neural compact models for accurate and adaptable MOSFET simulation</a>
+            <p class="pa">C Park*, S Lee*, <span class="me">J Park*</span>, K Rim, J Park, S Cho, J Jeon, H Cho</p>
+            <p class="pn">IEEE Journal of the Electron Devices Society, 12:745–751, 2024</p>
+            <p class="pl"><a href="https://doi.org/10.1109/JEDS.2024.3417521" target="_blank" rel="noopener">Paper</a></p>
+          </div>
+        </li>
+
+        <li class="pub">
+          <div class="pub-meta"><span class="pv">DAC</span><span class="py">2024</span></div>
+          <div class="pub-main">
+            <a class="pt" href="https://doi.org/10.1145/3649329.3655925" target="_blank" rel="noopener">Accelerating DTCO with a sample-efficient active learning framework for TCAD device modeling</a>
+            <p class="pa">C Park*, <span class="me">J Park*</span>, P Vincent, H Cho</p>
+            <p class="pn">ACM/IEEE Design Automation Conference (DAC), 2024</p>
+            <p class="pl"><a href="https://doi.org/10.1145/3649329.3655925" target="_blank" rel="noopener">Paper</a></p>
+          </div>
+        </li>
+
+        <li class="pub">
+          <div class="pub-meta"><span class="pv">SSE</span><span class="py">2023</span></div>
+          <div class="pub-main">
+            <a class="pt" href="https://doi.org/10.1016/j.sse.2022.108500" target="_blank" rel="noopener">Hierarchical mixture-of-experts approach for neural compact modeling of MOSFETs</a>
+            <p class="pa">C Park, P Vincent, S Chong, <span class="me">J Park</span>, YS Cha, H Cho</p>
+            <p class="pn">Solid-State Electronics, 199:108500, 2023</p>
+            <p class="pl"><a href="https://doi.org/10.1016/j.sse.2022.108500" target="_blank" rel="noopener">Paper</a></p>
+          </div>
+        </li>
+
+        <li class="pub">
+          <div class="pub-meta"><span class="pv">SSE</span><span class="py">2022</span></div>
+          <div class="pub-main">
+            <a class="pt" href="https://doi.org/10.1016/j.sse.2022.108450" target="_blank" rel="noopener">A novel methodology for neural compact modeling based on knowledge transfer</a>
+            <p class="pa">YS Cha, <span class="me">J Park</span>, C Park, S Chong, CH Kim, CS Lee, I Jeong, H Cho</p>
+            <p class="pn">Solid-State Electronics, 198:108450, 2022</p>
+            <p class="pl"><a href="https://doi.org/10.1016/j.sse.2022.108450" target="_blank" rel="noopener">Paper</a></p>
+          </div>
+        </li>
+
+      </ol>
+    </div>
+
+    <div class="pg" data-type="workshop">
+      <h3 class="pg-title">Workshop <span>6</span></h3>
+      <ol class="pubs">
+
+        <li class="pub">
+          <div class="pub-meta"><span class="pv">NeurIPS-W</span><span class="py">2026</span></div>
+          <div class="pub-main">
+            <a class="pt" href="https://neurips.cc/virtual/2026/174541" target="_blank" rel="noopener">On-Orbit Demonstration of Backpropagation-Free Neural Compression for Earth Observation</a>
+            <p class="pa">W Cho, <span class="me">J Park</span>, S Sim, D Kwon</p>
+            <p class="pn">NeurIPS Workshop on Tackling Climate Change with Machine Learning, 2026 <span class="badge">Spotlight</span></p>
+            <p class="pl"><a href="https://neurips.cc/virtual/2026/174541" target="_blank" rel="noopener">Workshop page</a></p>
+          </div>
+        </li>
+
+        <li class="pub">
+          <div class="pub-meta"><span class="pv">ECCV-W</span><span class="py">2026</span></div>
+          <div class="pub-main">
+            <a class="pt" href="https://arxiv.org/abs/2607.25563" target="_blank" rel="noopener">Few-Shot Open-Vocabulary Remote Sensing Segmentation via Textual Inversion</a>
+            <p class="pa">J Heo, <span class="me">J Park</span></p>
+            <p class="pn">ECCV Workshop on TerraBytes2, 2026 <span class="badge">Oral</span></p>
+            <p class="pl"><a href="https://arxiv.org/abs/2607.25563" target="_blank" rel="noopener">arXiv</a><a href="https://github.com/ROKMC1250/FewShot-OVRS-TI" target="_blank" rel="noopener">Code</a></p>
+          </div>
+        </li>
+
+        <li class="pub">
+          <div class="pub-meta"><span class="pv">ICML-W</span><span class="py">2026</span></div>
+          <div class="pub-main">
+            <a class="pt" href="https://arxiv.org/abs/2606.01577" target="_blank" rel="noopener">FLAME: Physics-Guided Neural Operators for Onboard Satellite Methane Detection in Hyperspectral Imagery</a>
+            <p class="pa">J Heo, <span class="me">J Park</span>, S Sim, B Choi, W Cho</p>
+            <p class="pn">ICML Workshop on AI for Science (AI4Science), 2026</p>
+            <p class="pl"><a href="https://arxiv.org/abs/2606.01577" target="_blank" rel="noopener">arXiv</a><a href="https://github.com/ROKMC1250/FLAME" target="_blank" rel="noopener">Code</a></p>
+          </div>
+        </li>
+
+        <li class="pub">
+          <div class="pub-meta"><span class="pv">CVPR-W</span><span class="py">2026</span></div>
+          <div class="pub-main">
+            <a class="pt" href="https://openreview.net/forum?id=dIO3JLoy19" target="_blank" rel="noopener">Sequential Dataset for Satellite Pose Estimation and a Frequency-Space Neural Operator for HIL-Free Generalization Benchmarking</a>
+            <p class="pa">W Cho*, <span class="me">J Park*</span>, S Immanuel, J Park, S Chin, J Wang</p>
+            <p class="pn">CVPR Workshop on SynData4CV, 2026 <span class="badge gold">Best Paper Award</span></p>
+            <p class="pl"><a href="https://openreview.net/forum?id=dIO3JLoy19" target="_blank" rel="noopener">OpenReview</a></p>
+          </div>
+        </li>
+
+        <li class="pub">
+          <div class="pub-meta"><span class="pv">CVPR-W</span><span class="py">2026</span></div>
+          <div class="pub-main">
+            <a class="pt" href="https://openreview.net/forum?id=7yYcqe9l8a" target="_blank" rel="noopener">Onboard Latent Kalman Filtering for Robust Spacecraft Pose Estimation</a>
+            <p class="pa"><span class="me">J Park*</span>, W Cho*</p>
+            <p class="pn">CVPR Workshop on AI4Space, 2026</p>
+            <p class="pl"><a href="https://openreview.net/forum?id=7yYcqe9l8a" target="_blank" rel="noopener">OpenReview</a></p>
+          </div>
+        </li>
+
+        <li class="pub">
+          <div class="pub-meta"><span class="pv">NeurIPS-W</span><span class="py">2025</span></div>
+          <div class="pub-main">
+            <a class="pt" href="https://openreview.net/forum?id=F3EcrOOE50" target="_blank" rel="noopener">PIANO: Physics-informed Dual Neural Operator for Precipitation Nowcasting</a>
+            <p class="pa">S Chin, <span class="me">J Park</span>, W Cho</p>
+            <p class="pn">NeurIPS Workshop on Machine Learning and the Physical Sciences (ML4PS), 2025</p>
+            <p class="pl"><a href="https://openreview.net/forum?id=F3EcrOOE50" target="_blank" rel="noopener">OpenReview</a><a href="https://arxiv.org/abs/2512.01062" target="_blank" rel="noopener">arXiv</a><a href="https://ml4physicalsciences.github.io/2025/files/NeurIPS_ML4PS_2025_68.pdf" target="_blank" rel="noopener">PDF</a></p>
+          </div>
+        </li>
+
+      </ol>
+    </div>
+
+    <div class="pg" data-type="preprint">
+      <h3 class="pg-title">Preprint &amp; under review <span>5</span></h3>
+      <ol class="pubs">
+
+        <li class="pub is-pre">
+          <div class="pub-meta"><span class="pv">Preprint</span><span class="py">2026</span></div>
+          <div class="pub-main">
+            <span class="pt">ASTRA: A Large-Scale Multi-Satellite Benchmark for Onboard 6-DoF Spacecraft Pose Estimation</span>
+            <p class="pa">W Cho*, <span class="me">J Park*</span>, S Immanuel, J Park, S Chin, J Wang</p>
+            <p class="pn">Under review, 2026</p>
+          </div>
+        </li>
+
+        <li class="pub is-pre">
+          <div class="pub-meta"><span class="pv">Preprint</span><span class="py">2026</span></div>
+          <div class="pub-main">
+            <span class="pt">DRIFT: Dynamics-aware Robust Inference with Latent Filtering for Temporal Satellite Pose Estimation</span>
+            <p class="pa"><span class="me">J Park*</span>, W Cho*</p>
+            <p class="pn">Under review, 2026</p>
+          </div>
+        </li>
+
+        <li class="pub is-pre">
+          <div class="pub-meta"><span class="pv">Preprint</span><span class="py">2026</span></div>
+          <div class="pub-main">
+            <a class="pt" href="https://arxiv.org/abs/2606.31136" target="_blank" rel="noopener">FROST: Training-Free Few-Shot Segmentation with Frozen Features and Nonparametric Statistics</a>
+            <p class="pa"><span class="me">J Park</span></p>
+            <p class="pn">Under review, 2026</p>
+            <p class="pl"><a href="https://arxiv.org/abs/2606.31136" target="_blank" rel="noopener">arXiv</a><a href="https://github.com/jhpark-ai/FROST" target="_blank" rel="noopener">Code</a></p>
+          </div>
+        </li>
+
+        <li class="pub is-pre">
+          <div class="pub-meta"><span class="pv">Preprint</span><span class="py">2026</span></div>
+          <div class="pub-main">
+            <span class="pt">Foveal Re-Encoding for Frozen Backbones</span>
+            <p class="pa"><span class="me">J Park</span></p>
+            <p class="pn">Under review, 2026</p>
+          </div>
+        </li>
+
+        <li class="pub is-pre">
+          <div class="pub-meta"><span class="pv">Preprint</span><span class="py">2026</span></div>
+          <div class="pub-main">
+            <span class="pt">Beyond Simulation: Retain-and-Repair Neural Operators for Real-World Adaptation</span>
+            <p class="pa">W Cho, <span class="me">J Park</span></p>
+            <p class="pn">Under review, 2026</p>
+          </div>
+        </li>
+
+      </ol>
+    </div>
+
+</div></section>
+
+<!-- ───────────── Experience ───────────── -->
+<section class="s" id="experience"><div class="wrap">
+  <header class="sh"><span class="n">3</span><h2>Experience</h2><p class="k">training log</p></header>
+  <ol class="xp">
+      <li class="x now">
+        <div class="x-when">Feb 2025 – Present</div>
+        <div class="x-main">
+          <h3><a href="https://telepix.net/" target="_blank" rel="noopener">TelePIX</a> <span>AI Researcher</span></h3>
+          <p class="x-where">Seoul, South Korea</p>
             <ul>
               <li>Research on AI for remote sensing imagery, including RGB, multispectral and hyperspectral data.</li>
               <li>Development of onboard satellite AI algorithms, including 6-DoF pose estimation and INR-based compression.</li>
             </ul>
-          </div>
-        </li>
-        <li class="leg">
-          <div class="leg-when">Jul 2024 – Jan 2025</div>
-          <div class="leg-body">
-            <h3><a href="https://com2us.com/platform" target="_blank" rel="noopener">Com2uS Platform</a> <span class="role">AI Engineer</span></h3>
-            <p class="leg-where">Seoul, South Korea</p>
+        </div>
+      </li>
+      <li class="x">
+        <div class="x-when">Jul 2024 – Jan 2025</div>
+        <div class="x-main">
+          <h3><a href="https://com2us.com/platform" target="_blank" rel="noopener">Com2uS Platform</a> <span>AI Engineer</span></h3>
+          <p class="x-where">Seoul, South Korea</p>
             <ul>
               <li>Developed NLP-based anomaly detection systems for chat abuse detection.</li>
               <li>Built a community monitoring system that crawls gaming communities and sends alerts.</li>
             </ul>
-          </div>
-        </li>
-        <li class="leg">
-          <div class="leg-when">Dec 2020 – Jul 2024</div>
-          <div class="leg-body">
-            <h3><a href="https://www.alsemy.com/" target="_blank" rel="noopener">Alsemy</a> <span class="role">AI Researcher</span></h3>
-            <p class="leg-where">Seoul, South Korea</p>
+        </div>
+      </li>
+      <li class="x">
+        <div class="x-when">Dec 2020 – Jul 2024</div>
+        <div class="x-main">
+          <h3><a href="https://www.alsemy.com/" target="_blank" rel="noopener">Alsemy</a> <span>AI Researcher</span></h3>
+          <p class="x-where">Seoul, South Korea</p>
             <ul>
               <li>Research on neural compact modeling, using INRs and neural operators for functional fitting and manipulation.</li>
               <li>Design-Technology Co-Optimization (DTCO) with AI for semiconductor process optimization.</li>
             </ul>
-          </div>
-        </li>
-        <li class="leg leg-edu">
-          <div class="leg-when">Mar 2015 – Aug 2021</div>
-          <div class="leg-body">
-            <h3>Kyung Hee University <span class="role">B.S. in Space Science</span></h3>
-            <p class="leg-where">South Korea</p>
-          </div>
-        </li>
-      </ol>
-    </div>
-  </section>
+        </div>
+      </li>
+      <li class="x">
+        <div class="x-when">Mar 2015 – Aug 2021</div>
+        <div class="x-main">
+          <h3>Kyung Hee University <span>B.S. in Space Science</span></h3>
+          <p class="x-where">South Korea</p>
+        </div>
+      </li>
+  </ol>
+</div></section>
 
-  <!-- ───────────── Contact ───────────── -->
-  <section class="section" id="contact" aria-labelledby="contact-h">
-    <div class="wrap">
-      <header class="sec-head"><span class="sec-idx">04</span><h2 id="contact-h">Contact</h2><span class="sec-rule" aria-hidden="true"></span></header>
-      <div class="contact">
-        <p>I am always glad to talk about model adaptation, neural representations and AI for spacecraft. The quickest way to reach me is email.</p>
-        <p class="contact-mail">
-          <a class="js-email js-email-text" href="#contact" data-user="brian897743" data-domain="gmail.com">brian897743 [at] gmail.com</a>
-        </p>
-      </div>
-    </div>
-  </section>
+<!-- ───────────── Contact ───────────── -->
+<section class="s" id="contact"><div class="wrap">
+  <header class="sh"><span class="n">4</span><h2>Contact</h2><p class="k">converged</p></header>
+  <div class="contact">
+    <p>I am always glad to talk about model adaptation, neural representations and AI for spacecraft. The quickest way to reach me is email.</p>
+    <p><a class="mail js-email js-email-text" href="#contact" data-user="brian897743" data-domain="gmail.com">brian897743 [at] gmail.com</a></p>
+  </div>
+  <p class="foot"><span>© 2026 Junghwan Park</span><span>Last updated Nov 2026</span></p>
+</div></section>
 
 </main>
-
-<footer class="footer">
-  <div class="wrap footer-inner">
-    <p>© 2026 Junghwan Park</p>
-    <p class="footer-mono">Last updated Nov 2026</p>
-    <a class="footer-top" href="#top">Back to top ↑</a>
-  </div>
-</footer>
-
 </body>
 </html>
