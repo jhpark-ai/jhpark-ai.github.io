@@ -225,7 +225,7 @@
     ctx.globalAlpha = 1; ctx.textBaseline = 'alphabetic';
   }
 
-  var raf = 0, visible = true, t0 = performance.now(), prev = 0, dragging = false, lastX = 0, user = 0;
+  var raf = 0, visible = true, t0 = performance.now(), prev = 0, dragging = false, user = 0;
   function loop(now) {
     raf = 0;
     if (!visible || document.hidden) { prev = 0; return; }
@@ -242,10 +242,34 @@
     sat.fade = 1; sat.show = 1; draw();
   }
 
-  stage.addEventListener('pointerdown', function (ev) { dragging = true; lastX = ev.clientX; stage.setPointerCapture(ev.pointerId); });
+  /* drag: the point of the surface under the pointer is carried round the vertical axis,
+     so it follows the pointer wherever the figure is grabbed (near side, far side or the edges) */
+  var grabZ = 0, lastU = null;
+  function pick(sx, sy) {   /* height of the surface under a point of the stage */
+    var xr = (sx - cx) / sc, t = (sy - cy) / sc, z = zmid, yr, x, y;
+    for (yr = R * 1.42; yr >= -R * 1.42; yr -= 0.04) {   /* walk the line of sight, near to far */
+      x = xr * cs + yr * sn; y = yr * cs - xr * sn;
+      if (x < -R || x > R || y < -R || y > R) continue;
+      z = L(x, y);
+      if (yr * sa - (z - zmid) * ZS * ca <= t) break;
+    }
+    return z;
+  }
+  function unproject(ev) {   /* pointer on the horizontal plane at the grabbed height, in px from the axis */
+    var r = stage.getBoundingClientRect();
+    return [ev.clientX - r.left - cx, (ev.clientY - r.top - cy + (grabZ - zmid) * ZS * ca * sc) / sa];
+  }
+  stage.addEventListener('pointerdown', function (ev) {
+    var r = stage.getBoundingClientRect();
+    dragging = true; grabZ = pick(ev.clientX - r.left, ev.clientY - r.top); lastU = unproject(ev);
+    try { stage.setPointerCapture(ev.pointerId); } catch (e) {}
+  });
   stage.addEventListener('pointermove', function (ev) {
     if (!dragging) return;
-    var d = (ev.clientX - lastX) * 0.006; lastX = ev.clientX; user += d; yaw += d;
+    /* angle swept round the axis since the last event; damped close to the axis */
+    var u = unproject(ev), min = 1.2 * sc;
+    var d = Math.atan2(lastU[0] * u[1] - lastU[1] * u[0], Math.max(lastU[0] * u[0] + lastU[1] * u[1], min * min));
+    lastU = u; user += d; yaw += d;
     if (reduce) draw();
   });
   function drop() { dragging = false; t0 = performance.now(); yaw0 = yaw - user; }
